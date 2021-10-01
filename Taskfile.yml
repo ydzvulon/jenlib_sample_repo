@@ -1,0 +1,35 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  GREETING: Hello, World!
+  result_path: /tmp/result.abc321.txt
+tasks:
+  default:
+    cmds:
+      - echo "{{.GREETING}}"
+    silent: true
+
+  ci-flow:
+    desc: ci-build and ci-test
+    cmds:
+      - task ci-build
+      - task ci-test
+      - task ci-report
+
+  ci-build:
+    desc: build for ci
+    cmds:
+      - echo "hello" > {{.result_path}}
+
+  ci-test:
+    desc: test me
+    cmds:
+      - cat {{.result_path}} | grep hello
+  
+  ci-report:
+    desc: stamp info about ci-flow
+    cmds:
+      - |
+        echo '{"status": "ok"}'
